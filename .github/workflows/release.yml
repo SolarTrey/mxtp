@@ -58,7 +58,8 @@ jobs:
           tag_name: ${{ steps.ver.outputs.tag }}
           target_commitish: ${{ github.sha }}
           name: mxtp ${{ steps.ver.outputs.tag }}
-          prerelease: ${{ contains(steps.ver.outputs.tag, '-') }}
+          prerelease: false
+          make_latest: true
           body_path: .github/RELEASE_NOTES.md
           files: |
             dist/mxtp-Setup.exe
