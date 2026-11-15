@@ -1,0 +1,85 @@
+{
+  "name": "mxtp",
+  "productName": "mxtp",
+  "version": "0.1.0-beta",
+  "description": "A local music player in the spirit of Rdio.",
+  "main": "src/main/main.js",
+  "author": "SolarTrey",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win"
+  },
+  "dependencies": {
+    "ffmpeg-static": "^5.2.0",
+    "ffprobe-static": "^3.1.0"
+  },
+  "devDependencies": {
+    "electron": "^37.2.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.mxtp.player",
+    "productName": "mxtp",
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json",
+      "!node_modules/ffprobe-static/bin/darwin/**",
+      "!node_modules/ffprobe-static/bin/linux/**"
+    ],
+    "asarUnpack": [
+      "node_modules/ffmpeg-static/**",
+      "node_modules/ffprobe-static/**"
+    ],
+    "fileAssociations": [
+      {
+        "ext": [
+          "mp3",
+          "m4a",
+          "flac",
+          "wav",
+          "ogg",
+          "opus",
+          "aac",
+          "aif",
+          "aiff",
+          "wma",
+          "ape",
+          "wv",
+          "dsf",
+          "dff",
+          "alac",
+          "mka",
+          "tta"
+        ],
+        "name": "mxtp music",
+        "description": "Music file",
+        "role": "Viewer"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "artifactName": "mxtp-Setup.exe"
+    },
+    "portable": {
+      "artifactName": "mxtp.exe"
+    },
+    "directories": {
+      "output": "dist"
+    },
+    "electronLanguages": [
+      "en-US"
+    ],
+    "compression": "maximum"
+  }
+}

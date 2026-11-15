@@ -1,0 +1,91 @@
+/* ==========================================================================================
+   More mini players: CD Player, Vinyl and Cassette (see widgets-extra.js)
+   ========================================================================================== */
+html:is([data-mode="cdplayer"], [data-mode="vinyl"], [data-mode="cassette"]) .w { box-shadow: none; border-radius: 0; overflow: visible; background: none; }
+
+/* ---------------- CD Player: a late-90s desktop window ---------------- */
+.cdp { width: 304px; height: 206px; display: flex; flex-direction: column; background: #c0c0c0; color: #000;
+  font: 11px/1.2 Tahoma, "MS Sans Serif", "Segoe UI", sans-serif; -webkit-font-smoothing: none;
+  box-shadow: inset -1px -1px 0 #000, inset 1px 1px 0 #dfdfdf, inset -2px -2px 0 #808080, inset 2px 2px 0 #fff; padding: 3px; }
+.cdp button { color: #000; }
+.cdp-title { height: 18px; display: flex; align-items: center; gap: 4px; padding: 0 2px 0 3px; color: #fff; font-weight: 700;
+  background: linear-gradient(90deg, #000080, #1084d0); }
+.cdp-ic { width: 14px; height: 14px; }
+.cdp-name { flex: 1; }
+.cdp-tbs { display: flex; gap: 2px; }
+.cdp-tb { width: 16px; height: 14px; background: #c0c0c0; font: 700 10px/1 "Segoe UI", sans-serif; padding-bottom: 2px;
+  box-shadow: inset -1px -1px 0 #000, inset 1px 1px 0 #fff, inset -2px -2px 0 #808080, inset 2px 2px 0 #dfdfdf; }
+.cdp-tb.x { margin-left: 2px; font-size: 12px; }
+.cdp-tb:active, .cdp-b:active, .cdp-b.down { box-shadow: inset 1px 1px 0 #000, inset -1px -1px 0 #fff, inset 2px 2px 0 #808080, inset -2px -2px 0 #dfdfdf; }
+.cdp-menu { display: flex; gap: 0; padding: 1px 0 2px; }
+.cdp-menu button { padding: 1px 6px; display: inline-block; }
+.cdp-menu button:hover { background: #000080; color: #fff; }
+.cdp-top { display: flex; gap: 8px; padding: 3px 4px 5px; }
+.cdp-lcd { flex: 1; height: 46px; background: #000; display: flex; align-items: center; justify-content: center; gap: 6px;
+  font: 22px/1 "Lucida Console", Consolas, "Courier New", monospace; color: #c3b700; letter-spacing: 1px;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff, inset 2px 2px 0 #000, inset -2px -2px 0 #dfdfdf; text-shadow: 0 0 6px rgba(195,183,0,.35); }
+.cdp-btns { display: flex; flex-direction: column; gap: 3px; }
+.cdp-row { display: flex; gap: 0; }
+.cdp-b { width: 24px; height: 22px; background: #c0c0c0;
+  box-shadow: inset -1px -1px 0 #000, inset 1px 1px 0 #fff, inset -2px -2px 0 #808080, inset 2px 2px 0 #dfdfdf; }
+.cdp-b.wide { width: 72px; }
+.cdp-b svg { fill: #000; }
+.cdp-row:first-child { justify-content: flex-end; }
+.cdp-f { display: flex; align-items: center; gap: 6px; padding: 1px 4px; }
+.cdp-f label { width: 36px; text-align: right; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 1px; }
+.cdp-in { flex: 1; height: 21px; display: flex; align-items: center; gap: 4px; padding: 0 0 0 4px; background: #fff; min-width: 0; position: relative;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff, inset 2px 2px 0 #000, inset -2px -2px 0 #dfdfdf; }
+.cdp-in > .ell { flex: 1; min-width: 0; }
+.cdp-in.ro { background: #c0c0c0; }
+.cdp-dr { padding-right: 2px; }
+.cdp-arrow { width: 16px; height: 17px; margin-right: 2px; flex: none; background: #c0c0c0; position: relative;
+  box-shadow: inset -1px -1px 0 #000, inset 1px 1px 0 #fff, inset -2px -2px 0 #808080, inset 2px 2px 0 #dfdfdf; pointer-events: none; }
+.cdp-arrow::after { content: ""; position: absolute; left: 4px; top: 7px; border: 4px solid transparent; border-top-color: #000; border-bottom: 0; }
+.cdp-in.sel select { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; font: inherit; color: #000; appearance: none; cursor: pointer; padding: 0; }
+.cdp-in.sel .cdp-arrow { position: absolute; right: 0; top: 2px; }
+.cdp-status { margin-top: auto; display: flex; gap: 2px; padding-top: 3px; }
+.cdp-status span { flex: 1; padding: 2px 4px; box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff; white-space: nowrap; overflow: hidden; }
+
+/* ---------------- Vinyl: the record slides out of the sleeve while playing ---------------- */
+.vin { position: relative; width: 328px; height: 232px; }
+.vin-cover { position: absolute; left: 4px; top: 8px; width: 216px; height: 216px; z-index: 2; overflow: hidden; border-radius: 2px;
+  background: #111; box-shadow: 0 10px 24px rgba(0,0,0,.5), 0 0 0 1px rgba(0,0,0,.4); }
+.vin-cover img, .vin-blank { width: 100%; height: 100%; object-fit: cover; }
+.vin-blank { background: linear-gradient(135deg, #2b2f35, #111); }
+.vin-cover::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(255,255,255,.12), rgba(255,255,255,0) 4%, rgba(0,0,0,0) 96%, rgba(0,0,0,.25)), linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,0) 40%); }
+.vin-rec { position: absolute; left: 14px; top: 14px; width: 204px; height: 204px; z-index: 1; transition: transform 1s cubic-bezier(.3,.7,.2,1); }
+.vin.on .vin-rec { transform: translateX(102px); }   /* half the record out of the sleeve */
+.vin-disc { width: 100%; height: 100%; border-radius: 50%; position: relative; box-shadow: 0 8px 22px rgba(0,0,0,.5);
+  background: conic-gradient(from 30deg, rgba(255,255,255,0), rgba(255,255,255,.1) 8%, rgba(255,255,255,0) 18%, rgba(255,255,255,0) 50%, rgba(255,255,255,.08) 58%, rgba(255,255,255,0) 68%),
+    repeating-radial-gradient(circle, #0c0c0d 0 1.4px, #1b1c1e 1.4px 2.8px);
+  animation: wspin 1.8s linear infinite; animation-play-state: paused; }
+.vin.on .vin-disc { animation-play-state: running; }
+.vin-label { position: absolute; inset: 33%; border-radius: 50%; background: var(--accent) center / cover; box-shadow: 0 0 0 2px rgba(0,0,0,.6); }
+.vin-label::after { content: ""; position: absolute; left: 50%; top: 50%; width: 8%; height: 8%; margin: -4% 0 0 -4%; border-radius: 50%; background: #0b0b0c; }
+@keyframes wspin { to { transform: rotate(360deg); } }
+.vin-ov { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; color: #fff;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.78)); opacity: 0; transition: opacity .2s; }
+.vin-cover:hover .vin-ov { opacity: 1; }
+.vin-meta .t { font-weight: 600; font-size: 13px; }
+.vin-meta .s { font-size: 11.5px; color: rgba(255,255,255,.75); }
+.vin-c, .wc-c { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; }
+.vin-c button, .wc-c button { color: #fff; }
+.vin-c .play, .wc-c .play { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); }
+.vin-line { height: 2px; margin-top: 9px; background: rgba(255,255,255,.25); }
+.vin-line i { display: block; height: 100%; width: 0; background: #fff; }
+
+/* ---------------- Cassette: the cassette while playing, its case when paused ---------------- */
+.wcass { position: relative; width: 320px; height: 216px; }
+.wc-tape, .wc-case { position: absolute; transition: opacity .5s ease, transform .7s cubic-bezier(.3,.7,.2,1); filter: drop-shadow(0 8px 16px rgba(0,0,0,.5)); }
+.wc-tape { left: 4px; right: 4px; top: 50%; transform: translateY(-50%); }
+.wc-svg, .wk-svg { display: block; width: 100%; height: 100%; }
+.wc-svg .reel { animation: wspin 2.4s linear infinite; animation-play-state: paused; transform-box: view-box; }
+.wcass.on .wc-svg .reel { animation-play-state: running; }
+.wc-case { top: 4px; bottom: 4px; left: 50%; aspect-ratio: 128 / 200; transform: translateX(-50%) scale(.9); opacity: 0; }
+.wcass:not(.on) .wc-tape { opacity: 0; transform: translateY(-40%) scale(.88); pointer-events: none; }
+.wcass:not(.on) .wc-case { opacity: 1; transform: translateX(-50%); }
+.wc-c { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); margin: 0; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,.72);
+  opacity: 0; transition: opacity .2s; z-index: 3; }
+.wcass:hover .wc-c { opacity: 1; }
+.wc-c .play { width: 32px; height: 32px; }
