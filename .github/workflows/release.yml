@@ -1,10 +1,11 @@
 # Builds the Windows installer and portable exe.
-# Push a tag like v0.1.0-beta to publish a GitHub release with both exes
-# and a build-it-yourself zip (with build.bat). Can also be run by hand from the Actions tab.
+# Every push to main (or a v* tag) builds both exes and publishes them, with a build-it-yourself
+# zip (with build.bat), as the release for the version in package.json. Can also be run by hand from the Actions tab.
 name: Build for Windows
 
 on:
   push:
+    branches: [main]
     tags: ['v*']
   workflow_dispatch:
 
@@ -20,6 +21,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Read the version
+        id: ver
+        shell: pwsh
+        run: |
+          $v = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          "tag=v$v" >> $env:GITHUB_OUTPUT
 
       - name: Install
         run: npm install --no-audit --no-fund
@@ -45,11 +53,12 @@ jobs:
             dist/mxtp-build-it-yourself.zip
 
       - name: Publish release
-        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          name: mxtp ${{ github.ref_name }}
-          prerelease: ${{ contains(github.ref_name, '-') }}
+          tag_name: ${{ steps.ver.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: mxtp ${{ steps.ver.outputs.tag }}
+          prerelease: ${{ contains(steps.ver.outputs.tag, '-') }}
           body_path: .github/RELEASE_NOTES.md
           files: |
             dist/mxtp-Setup.exe
