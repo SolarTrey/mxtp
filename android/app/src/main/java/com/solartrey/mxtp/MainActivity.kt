@@ -28,7 +28,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.LibraryMusic
+import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
@@ -169,7 +169,7 @@ private fun BottomNav(root: Route, go: (Route) -> Unit) {
     val pal = LocalPalette.current
     val items = listOf(
         Triple(Route.Home, "Home", Icons.Filled.Home),
-        Triple(Route.Lib(), "Library", Icons.AutoMirrored.Filled.LibraryMusic),
+        Triple(Route.Lib(), "Library", Icons.Filled.LibraryMusic),
         Triple(Route.Search, "Search", Icons.Filled.Search),
         Triple(Route.Liked, "Liked", Icons.Filled.Favorite),
     )

@@ -25,7 +25,7 @@ data class Palette(
     val accent: Color = RdioBlue,
 )
 
-private fun fade(vararg c: Color) = Brush.horizontalGradient(listOf(Color.Transparent, *c, Color.Transparent))
+private fun fade(a: Color, b: Color) = Brush.horizontalGradient(listOf(Color.Transparent, a, b, Color.Transparent))
 
 fun paletteFor(theme: String, tone: String, lightLine: Boolean): Palette = when (theme) {
     "light" -> Palette(
