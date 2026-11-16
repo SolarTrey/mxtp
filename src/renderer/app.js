@@ -2351,7 +2351,7 @@
   });
   $('#navBack').onclick = back;
   $('#navFwd').onclick = fwd;
-  // theme: a drop-down (Light, the three Evening tones, Midnight) in the Rdio look; other skins cycle
+  // theme: a drop-down (Light, Evening, Midnight) in the Rdio look; Evening's colourways are in Settings; other skins cycle
   $('#themeBtn').onclick = (e) => {
     if (skin() !== 'rdio') return cycleTheme();
     e.stopPropagation();   // otherwise the same click closes the menu again
@@ -2361,11 +2361,7 @@
     const pick = (t, tn) => () => { if (tn) changeSetting('eveningTone', tn); changeSetting('theme', t); };
     showMenu(b.right - 200, b.bottom + 6, [
       { label: 'Light', icon: on('light') ? 'check' : 'sun', fn: pick('light') },
-      '-',
-      { label: 'Evening: Purple', icon: on('evening', 'purple') ? 'check' : 'sunset', fn: pick('evening', 'purple') },
-      { label: 'Evening: Amber', icon: on('evening', 'amber') ? 'check' : 'sunset', fn: pick('evening', 'amber') },
-      { label: 'Evening: Both', icon: on('evening', 'both') ? 'check' : 'sunset', fn: pick('evening', 'both') },
-      '-',
+      { label: 'Evening', icon: on('evening') ? 'check' : 'sunset', fn: pick('evening') },
       { label: 'Midnight', icon: on('midnight') ? 'check' : 'moon', fn: pick('midnight') }
     ]);
   };
