@@ -36,7 +36,7 @@ const WIDGET_PAD = 12;
 const WIDGET_SIZES = {
   bar: { w: 400, h: 84 }, card: { w: 236, h: 430 },
   touch: { w: 298, h: 576 }, pad: { w: 214, h: 376 }, wheel: { w: 214, h: 362 },
-  cdplayer: { w: 304, h: 206 }, vinyl: { w: 328, h: 232 }, cassette: { w: 320, h: 216 }
+  cdplayer: { w: 304, h: 206 }, vinyl: { w: 328, h: 232 }, cassette: { w: 320, h: 356 }
 };
 
 let mainWin = null;
@@ -76,6 +76,21 @@ function chrome() {
   return CHROME[`${skin}:${theme}`] || CHROME[`${skin}:${SKIN_THEMES[skin][0]}`];
 }
 
+// Hover over the app in the Windows taskbar: previous, play/pause, next and like buttons under the preview.
+function updateThumbar(state) {
+  if (process.platform !== 'win32' || !mainWin || mainWin.isDestroyed() || POCKET) return;
+  const img = (n) => nativeImage.createFromPath(path.join(__dirname, '..', '..', 'assets', 'thumbar', n + '.png'));
+  const send = (cmd) => () => mainWin && mainWin.webContents.send('player:command', cmd);
+  const flags = state && state.track ? [] : ['disabled'];
+  try {
+    mainWin.setThumbarButtons([
+      { tooltip: 'Previous', icon: img('prev'), click: send('prev'), flags },
+      { tooltip: state && state.playing ? 'Pause' : 'Play', icon: img(state && state.playing ? 'pause' : 'play'), click: send('toggle'), flags },
+      { tooltip: 'Next', icon: img('next'), click: send('next'), flags },
+      { tooltip: state && state.liked ? 'Unlike' : 'Like', icon: img(state && state.liked ? 'heart' : 'heartOutline'), click: send('love'), flags }
+    ]);
+  } catch {}
+}
 function createMain() {
   const s = store.settings();
   const t = chrome();
@@ -100,7 +115,7 @@ function createMain() {
   });
   if (s.window.maximized) mainWin.maximize();
   mainWin.loadFile(path.join(ROOT, 'src', 'renderer', 'index.html'));
-  if (!POCKET) mainWin.once('ready-to-show', () => mainWin.show());
+  if (!POCKET) mainWin.once('ready-to-show', () => { mainWin.show(); updateThumbar(lastState); });
 
   const saveBounds = debounce(() => {
     if (!mainWin || mainWin.isDestroyed()) return;
@@ -384,11 +399,11 @@ function registerIpc() {
 
   // player relay: the main window owns the audio; the mini player and tray send commands.
   ipcMain.on('player:state', (_e, state) => {
-    const prevKey = lastState && lastState.track ? lastState.track.id + lastState.playing : '';
+    const prevKey = lastState && lastState.track ? lastState.track.id + lastState.playing + lastState.liked : '';
     lastState = state;
     if (widgetWin && !widgetWin.isDestroyed()) widgetWin.webContents.send('player:state', state);
-    const key = state.track ? state.track.id + state.playing : '';
-    if (key !== prevKey) rebuildTray();
+    const key = state.track ? state.track.id + state.playing + state.liked : '';
+    if (key !== prevKey) { rebuildTray(); updateThumbar(state); }
   });
   ipcMain.handle('player:getState', () => lastState);
   ipcMain.on('player:command', (_e, cmd, arg) => { if (mainWin) mainWin.webContents.send('player:command', cmd, arg); });

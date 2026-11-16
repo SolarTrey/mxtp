@@ -26,7 +26,9 @@
       "assets/**/*",
       "package.json",
       "!node_modules/ffprobe-static/bin/darwin/**",
-      "!node_modules/ffprobe-static/bin/linux/**"
+      "!node_modules/ffprobe-static/bin/linux/**",
+      "!assets/earth.mp4",
+      "!assets/icons/**"
     ],
     "asarUnpack": [
       "node_modules/ffmpeg-static/**",
@@ -69,17 +71,35 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "artifactName": "mxtp-Setup.exe"
+      "artifactName": "mxtp-Setup.exe",
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "installerSidebar": "build/sidebar-midnight.bmp",
+      "uninstallerSidebar": "build/sidebar-midnight.bmp",
+      "installerHeader": "build/header.bmp",
+      "include": "build/installer.nsh",
+      "shortcutName": "mxtp"
     },
     "portable": {
       "artifactName": "mxtp.exe"
     },
     "directories": {
-      "output": "dist"
+      "output": "dist",
+      "buildResources": "build"
     },
     "electronLanguages": [
       "en-US"
     ],
-    "compression": "maximum"
+    "compression": "maximum",
+    "extraResources": [
+      {
+        "from": "assets/earth.mp4",
+        "to": "earth.mp4"
+      },
+      {
+        "from": "assets/icons",
+        "to": "icons"
+      }
+    ]
   }
 }

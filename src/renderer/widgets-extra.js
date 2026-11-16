@@ -3,7 +3,7 @@
    as the other mini players, so clicks, dragging and the right-click menu all work the same way. */
 (() => {
   // content sizes (the window adds a 12px transparent margin on every side)
-  const SIZES = { cdplayer: { w: 304, h: 206 }, vinyl: { w: 328, h: 232 }, cassette: { w: 320, h: 216 } };
+  const SIZES = { cdplayer: { w: 304, h: 206 }, vinyl: { w: 328, h: 232 }, cassette: { w: 320, h: 356 } };
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const mmss = (sec) => { sec = Math.max(0, Math.floor(sec || 0)); return `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`; };
   let n = 0;

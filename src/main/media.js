@@ -56,7 +56,11 @@ function makeHandler(library, art, dataDir) {
       }
       if (u.hostname === 'video') {
         // your Earth visualizer video, wherever it lives (Settings → Visualizers)
-        const file = require('./store').settings().earthVideo;
+        // '' = the Earth video that comes with the app, 'globe' = none (the drawn globe), otherwise your own file
+        const chosen = require('./store').settings().earthVideo;
+        const { app } = require('electron');
+        const bundled = app.isPackaged ? path.join(process.resourcesPath, 'earth.mp4') : path.join(__dirname, '..', '..', 'assets', 'earth.mp4');
+        const file = chosen && chosen !== 'globe' ? chosen : chosen === 'globe' ? '' : bundled;
         if (!file || !fs.existsSync(file)) return new Response('Not found', { status: 404 });
         const ext = path.extname(file).slice(1).toLowerCase();
         const type = { webm: 'video/webm', mkv: 'video/x-matroska', ogv: 'video/ogg' }[ext] || 'video/mp4';

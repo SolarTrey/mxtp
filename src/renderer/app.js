@@ -354,6 +354,7 @@
       muted: audio.muted,
       index: P.index,
       queueLength: P.queue.length,
+      liked: !!cur() && loved(cur().id),
       queueDuration: P.queue.reduce((a, q) => a + (q.duration || 0), 0),
       loved: t ? loved(t.id) : false,
       queue: P.queue.slice(Math.max(0, P.index - 50), P.index + 250).map((q, k) => ({ i: Math.max(0, P.index - 50) + k, title: q.title, artist: q.artist })),
@@ -607,6 +608,7 @@
         <button data-act="prev" title="Previous">${icon('prev')}</button>
         <button class="pb-play" data-act="toggle" title="Play/Pause">${playIc}</button>
         <button data-act="next" title="Next">${icon('next')}</button>
+        ${likeBtn(t)}
       </div>
       <div class="pb-center">
         <div class="pb-title ell">${t ? `${albumLink(t.title)} — ${artistLink(t.artist)}` : '&nbsp;'}</div>
@@ -664,6 +666,7 @@
       <div class="sp-foot">
         <button data-act="mute" title="Mute">${icon(vol ? 'volume' : 'mute')}</button>
         ${slider('volume', vol)}
+        ${likeBtn(t)}
         <button class="${P.shuffle ? 'on' : ''}" data-act="shuffle" title="Shuffle">${icon('shuffle')}</button>
         <button class="${P.repeat !== 'off' ? 'on' : ''}" data-act="repeat" title="Repeat">${repeatIcon()}</button>
       </div>`;
@@ -731,8 +734,16 @@
   function renderNowPlayingIfOpen() { if (!$('#nowPlaying').hidden) renderNowPlaying(); }
   // ------------------------------------------------------------------ full screen Now Playing
   let npFull = false;
+  // Cover view: full screen with just the album, the song and the controls (no queue)
+  let npSolo = false;
+  function setNpCover(on) {
+    npSolo = on;
+    $('#nowPlaying').classList.toggle('np-solo', on);
+    if (on && !npFull) setNpFull(true); else renderNowPlayingIfOpen();
+  }
   async function setNpFull(on) {
     npFull = on;
+    if (!on && npSolo) { npSolo = false; $('#nowPlaying').classList.remove('np-solo'); }
     if (on && $('#nowPlaying').hidden) openNowPlaying();
     $('#nowPlaying').classList.toggle('np-full', on);
     await api.win.fullscreen(on);
@@ -1133,6 +1144,7 @@
       <div class="np-shade"></div>
       <div class="np-tools">
         <button data-act="musicmode" title="Visualizers (M)">${icon('nowPlaying')}<span>Visualizer</span></button>
+        <button data-act="npcover" title="Cover view: full screen, just the album (C)">${icon(npSolo ? 'queue' : 'disc')}<span>${npSolo ? 'Show queue' : 'Cover view'}</span></button>
         <button data-act="npfull" title="Full screen (F)">${icon(npFull ? 'shrink' : 'expand')}<span>${npFull ? 'Exit full screen' : 'Full screen'}</span></button>
         <button class="np-x" data-act="nowplaying" title="Close">${icon('close')}</button>
       </div>
@@ -1150,6 +1162,7 @@
             <button class="np-transport np-play" data-act="toggle" title="Play/Pause">${icon(P.playing ? 'pause' : 'play')}</button>
             <button class="np-transport" data-act="next" title="Next">${icon('next')}</button>
             <button class="${P.repeat !== 'off' ? 'on' : ''}" data-act="repeat" title="Repeat">${repeatIcon()}</button>
+            ${likeBtn(t)}
           </div>
         </div>
         <div class="np-right">
@@ -1169,12 +1182,16 @@
   const isZune = () => skin() === 'zune';
   const zMosaicNP = () => isZune() && (settings.zuneNp || 'mosaic') === 'mosaic';
   const loved = (id) => !!(user.loved && user.loved[id]);
+  // the heart in the players: an outline until you like the song, then filled pink
+  const likeBtn = (t) => { const on = !!t && loved(t.id); return `<button class="like-btn ${on ? 'on' : ''}" data-act="love" title="${on ? 'Unlike' : 'Like'}" ${t ? '' : 'disabled'}>${icon(on ? 'heart' : 'heartOutline')}</button>`; };
   function toggleLove(t) {
     if (!t) return;
     user.loved = user.loved || {};
     if (user.loved[t.id]) delete user.loved[t.id]; else user.loved[t.id] = Date.now();
     saveUser();
-    renderChrome(); renderNowPlayingIfOpen(); emitState();
+    renderChrome(); renderNav(); emitState();
+    const on = loved(t.id);
+    if (cur() && cur().id === t.id) for (const b of document.querySelectorAll('#nowPlaying .like-btn')) { b.classList.toggle('on', on); b.title = on ? 'Unlike' : 'Like'; b.innerHTML = icon(on ? 'heart' : 'heartOutline'); }
   }
   const pinned = (id) => (user.pins || []).includes(id);
   function togglePin(a) {
@@ -1834,9 +1851,11 @@
           <p class="hint" style="margin-top:8px">Tip: right-click the record, CD or cassette on Now Playing to switch.</p>` : ''}
         </div>
         <div class="set-group">
-          <h3>Visualizers</h3><p class="hint">The Earth visualizer can play your own video instead of the built-in globe. It plays muted and loops, pauses with the music, and pulses a little on the beat.</p>
-          <div class="set-row"><label>Earth video</label><span class="set-file ell">${settings.earthVideo ? esc(settings.earthVideo.split(/[\\/]/).pop()) : 'Built-in globe'}</span>
-            <button class="btn" data-act="pickEarth">${settings.earthVideo ? 'Change…' : 'Use my video…'}</button>${settings.earthVideo ? `<button class="btn" data-act="clearEarth">Use built-in</button>` : ''}</div>
+          <h3>Visualizers</h3><p class="hint">The Earth visualizer plays the Earth video that comes with mxtp, your own video, or a drawn globe. Videos play muted and loop, pause with the music, and pulse a little on the beat.</p>
+          <div class="set-row"><label>Earth plays</label><span class="set-file ell">${!settings.earthVideo ? 'The Earth video' : settings.earthVideo === 'globe' ? 'The drawn globe' : esc(settings.earthVideo.split(/[\\/]/).pop())}</span>
+            <button class="btn" data-act="pickEarth">Your video…</button>
+            ${settings.earthVideo ? `<button class="btn" data-act="earthSet" data-v="">Earth video</button>` : ''}
+            ${settings.earthVideo !== 'globe' ? `<button class="btn" data-act="earthSet" data-v="globe">Drawn globe</button>` : ''}</div>
         </div>
         <div class="set-group">
           <h3>Mini player</h3><p class="hint">A separate little player for your desktop. Right-click it for the same options. Bar, Classic and Square match the app’s look.</p>
@@ -1897,7 +1916,8 @@
       ${item('genres', 'Genres', counts(LIB.genres.size), wmpIc ? 'collection' : '')}
       <a class="nav-item ${!np && r === 'playlist' && params.id === LIKED ? 'active' : ''}" data-route="playlist" data-pl="${LIKED}">Liked${counts(Object.keys(user.loved || {}).length)}</a>
       ${item('playlists', 'Playlists', counts((user.playlists || []).length))}
-      ${lists ? `<div class="nav-head">Favourite playlists</div>${lists}` : ''}
+      <div class="nav-head">Favourite playlists <button class="nav-add" data-act="favpick" title="Choose your favourite playlists">${icon('starOff')}</button></div>
+      ${lists || '<div class="nav-empty">Choose your favourites with the ☆ button.</div>'}
       <div class="nav-head">&nbsp;</div>
       ${item('settings', 'Settings', '', wmpIc ? 'sliders' : '')}
       ${status}`;
@@ -2172,6 +2192,13 @@
       case 'plplay': case 'plshuffle': playPlaylist(getPlaylist(r.params.id), 0, act === 'plshuffle'); break;
       case 'plplaytrack': playPlaylist(getPlaylist(r.params.id), +el.closest('.trow').dataset.pli); break;
       case 'plqueue': addToQueue(plResolve(getPlaylist(r.params.id)).filter((t) => !t.missing).map(qTrack)); break;
+      case 'favpick': {
+        const b = el.getBoundingClientRect();
+        const pls = user.playlists || [];
+        showMenu(b.right + 6, b.top, pls.length ? pls.map((p) => ({ label: p.name, icon: p.fav ? 'starOn' : 'starOff', fn: () => { p.fav = !p.fav; saveUser(); renderNav(); if (route().route === 'playlists') render(true); } }))
+          : [{ label: 'New playlist…', icon: 'plus', fn: async () => { const pl = await newPlaylist(); if (pl) { pl.fav = true; saveUser(); renderNav(); } } }]);
+        break;
+      }
       case 'plfav': { e.stopPropagation(); const pl = getPlaylist(el.dataset.id); if (pl) { pl.fav = !pl.fav; saveUser(); renderNav(); render(true); } break; }
       case 'plremove': { if (r.params.id === LIKED) { const id = el.closest('.trow').dataset.id; delete user.loved[id]; saveUser(); renderNav(); render(true); break; }
         const pl = getPlaylist(r.params.id); pl.tracks.splice(+el.closest('.trow').dataset.pli, 1); saveUser(); renderNav(); render(true); break; }
@@ -2194,8 +2221,9 @@
       }
       case 'musicmode': if (npFull) { npFull = false; $('#nowPlaying').classList.remove('np-full'); } closeNowPlaying(); openMusicMode(); break;
       case 'npfull': setNpFull(!npFull); break;
+      case 'npcover': setNpCover(!npSolo); break;
       case 'pickEarth': { const f = await api.win.pickVideo(); if (f) { settings = await api.settings.get(); applyEarthVideo(); render(); } break; }
-      case 'clearEarth': settings = await api.settings.set({ earthVideo: '' }); applyEarthVideo(); render(); break;
+      case 'earthSet': settings = await api.settings.set({ earthVideo: el.dataset.v }); applyEarthVideo(); render(); break;
       case 'mmclose': closeMusicMode(); break;
       case 'mmlist': toggleVizList(); break;
       case 'mmprev': cycleViz(-1); break;
@@ -2323,7 +2351,24 @@
   });
   $('#navBack').onclick = back;
   $('#navFwd').onclick = fwd;
-  $('#themeBtn').onclick = cycleTheme;
+  // theme: a drop-down (Light, the three Evening tones, Midnight) in the Rdio look; other skins cycle
+  $('#themeBtn').onclick = (e) => {
+    if (skin() !== 'rdio') return cycleTheme();
+    e.stopPropagation();   // otherwise the same click closes the menu again
+    const b = $('#themeBtn').getBoundingClientRect();
+    const th = settings.themes.rdio, tone = settings.eveningTone || 'both';
+    const on = (t, tn) => th === t && (!tn || tone === tn);
+    const pick = (t, tn) => () => { if (tn) changeSetting('eveningTone', tn); changeSetting('theme', t); };
+    showMenu(b.right - 200, b.bottom + 6, [
+      { label: 'Light', icon: on('light') ? 'check' : 'sun', fn: pick('light') },
+      '-',
+      { label: 'Evening: Purple', icon: on('evening', 'purple') ? 'check' : 'sunset', fn: pick('evening', 'purple') },
+      { label: 'Evening: Amber', icon: on('evening', 'amber') ? 'check' : 'sunset', fn: pick('evening', 'amber') },
+      { label: 'Evening: Both', icon: on('evening', 'both') ? 'check' : 'sunset', fn: pick('evening', 'both') },
+      '-',
+      { label: 'Midnight', icon: on('midnight') ? 'check' : 'moon', fn: pick('midnight') }
+    ]);
+  };
   $('#themeBtn').oncontextmenu = (e) => {
     e.preventDefault(); e.stopPropagation();
     if (SKINS.length < 2) return;
@@ -2385,7 +2430,8 @@
 
   // the Earth visualizer reads this: your own video (served by media://video), or nothing for the built-in globe
   function applyEarthVideo() {
-    window.EarthVideo = settings.earthVideo ? `media://video/v?f=${encodeURIComponent(settings.earthVideo)}` : null;
+    // Earth plays: the video that comes with mxtp (''), your own video (a path), or the drawn globe ('globe')
+    window.EarthVideo = settings.earthVideo === 'globe' ? null : `media://video/v?f=${encodeURIComponent(settings.earthVideo || 'included')}`;
   }
   api.settings.onChange((s) => {
     settings = s;

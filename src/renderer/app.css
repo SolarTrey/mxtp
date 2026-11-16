@@ -793,3 +793,21 @@ html[data-theme="light"][data-topline="on"] { --glow: linear-gradient(90deg, rgb
 .card-title .pl-star:hover { color: var(--strong); }
 .card-title .pl-star.on { color: #f5b301; }
 .card-title .pl-star .ic { width: 16px; height: 16px; }
+
+/* the heart in the players: an outline, then filled pink once you like the song */
+.like-btn { color: var(--muted); }
+.like-btn:hover { color: var(--strong); }
+button.like-btn.on, button.like-btn.on:hover { color: #ff3d8b !important; }
+.like-btn .ic { width: 18px; height: 18px; }
+.like-btn:disabled { opacity: .35; }
+
+/* ============================================================ Cover view: full screen, just the album */
+.now-playing.np-solo .np-right { display: none; }
+.now-playing.np-solo .np-inner { grid-template-columns: 1fr; padding: 70px 40px 140px; }
+.now-playing.np-solo .np-left { justify-content: center; }
+.now-playing.np-solo .np-stage { flex: 1; min-height: 0; width: 100%; display: grid; place-items: center; }
+.now-playing.np-solo .np-stage > .np-sleeve:not(.np-sleeve-case):not(.np-sleeve-tape) { width: min(64vh, 620px); }
+.now-playing.np-solo .np-stage > .np-sleeve-case { width: min(70vh, 640px); }
+.now-playing.np-solo .np-cap { position: absolute; left: 40px; bottom: 34px; max-width: 26%; text-align: left; align-items: flex-start; margin: 0; }
+.now-playing.np-solo .np-modes { position: absolute; left: 50%; bottom: 58px; transform: translateX(-50%); margin: 0; }
+.now-playing.np-solo .np-scrub { position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); width: min(760px, 52%); margin: 0; }

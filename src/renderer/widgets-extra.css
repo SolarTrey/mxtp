@@ -76,13 +76,13 @@ html:is([data-mode="cdplayer"], [data-mode="vinyl"], [data-mode="cassette"]) .w 
 .vin-line i { display: block; height: 100%; width: 0; background: #fff; }
 
 /* ---------------- Cassette: the cassette while playing, its case when paused ---------------- */
-.wcass { position: relative; width: 320px; height: 216px; }
+.wcass { position: relative; width: 320px; height: 356px; }   /* tall enough for the case at a real case's size next to the cassette */
 .wc-tape, .wc-case { position: absolute; transition: opacity .5s ease, transform .7s cubic-bezier(.3,.7,.2,1); filter: drop-shadow(0 8px 16px rgba(0,0,0,.5)); }
 .wc-tape { left: 4px; right: 4px; top: 50%; transform: translateY(-50%); }
 .wc-svg, .wk-svg { display: block; width: 100%; height: 100%; }
 .wc-svg .reel { animation: wspin 2.4s linear infinite; animation-play-state: paused; transform-box: view-box; }
 .wcass.on .wc-svg .reel { animation-play-state: running; }
-.wc-case { top: 4px; bottom: 4px; left: 50%; aspect-ratio: 128 / 200; transform: translateX(-50%) scale(.9); opacity: 0; }
+.wc-case { top: 8px; bottom: 8px; left: 50%; aspect-ratio: 128 / 200; transform: translateX(-50%) scale(.9); opacity: 0; }
 .wcass:not(.on) .wc-tape { opacity: 0; transform: translateY(-40%) scale(.88); pointer-events: none; }
 .wcass:not(.on) .wc-case { opacity: 1; transform: translateX(-50%); }
 .wc-c { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); margin: 0; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,.72);

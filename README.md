@@ -71,8 +71,11 @@ On any album, **Album art → Look up HD art online** searches again, and **Choo
 - The cassette plays out of its case, with turning hubs and tape moving across with the song. Pause it and you see its case with the album art.
 - A waveform scrubber drawn from the real audio, the release year under the artist, and the queue beside it.
 - **Double-click an empty spot** (or press **F**) for full screen.
+- **Cover view:** full screen with just the album, the song and the controls, no queue.
+- **The heart** in every player (Now Playing, the sidebar card, the bottom bar) likes the song: an outline until you like it, then filled pink.
 
 ![Now Playing as a CD and as a cassette](docs/nowplaying.jpg)
+![Cover view](docs/cover.jpg)
 
 ## Visualizers
 
@@ -83,7 +86,7 @@ Press **M** or use the Visualizer button on Now Playing. **V** opens the list, *
 - **Party:** Disco Ball, Tunnel, Kaleidoscope and Fireworks
 - **Retro:** Cassette Deck, Hi-Fi Rack, Neon Highway and Starfield
 - **Nature:** Aurora
-- **Console:** Earth, a slow cinematic orbit of a lit globe, a crescent and a sunrise behind the planet. Earth can also play **your own video** instead (Settings → Visualizers).
+- **Console:** Earth, which plays the Earth video that comes with mxtp. In Settings → Visualizers you can switch it to your own video, or to a drawn globe.
 
 They react to the real audio, smoothed so calm music stays calm.
 
@@ -102,7 +105,7 @@ A little player for your desktop, from the title bar or the tray. Right-click it
 - **Evening:** **Purple**, **Amber**, or **Both** (purple fading into an amber sunset). Each has its own fading neon line.
 - **Midnight:** true black with Rdio blue.
 
-Switch with the theme button in the title bar or in Settings. The player can be the classic sidebar card, a bottom bar, or both.
+Pick one from the theme menu in the title bar, or in Settings. The player can be the classic sidebar card, a bottom bar, or both.
 
 ## Settings
 
@@ -114,11 +117,18 @@ The cog at the top goes straight to Settings:
 | **Music folders** | Add or remove folders and drives · rescan · open files |
 | **Album art** | Find HD art online · upgrade art smaller than 400 / 1000 / 1500 px, or always · each art source on or off · Discogs token |
 | **Now Playing** | Format: vinyl, CD or cassette · CD: printed cover or shiny underside · cassette: out of its case, or on its own · tilt the record under the mouse |
-| **Visualizers** | Earth video: your own, or the built-in globe |
+| **Visualizers** | Earth plays: the Earth video, your own video, or a drawn globe |
 | **Mini player** | Show it · style: Bar, Classic, Square, CD Player, Vinyl or Cassette · on top or on the desktop · show queue · lock position · square size |
 | **Window** | Keep playing in the tray when the window closes |
 
 ![Settings in Light and Midnight](docs/settings.jpg)
+
+## Little touches
+
+- **Taskbar controls:** hover over mxtp in the Windows taskbar for previous, play/pause, next and like buttons under the preview.
+- **Icons for every theme:** the `icons` folder next to mxtp (usually `%LOCALAPPDATA%\Programs\mxtp\resources\icons`) has an icon for Light, each Evening tone, Midnight and Rdio blue. Right-click your shortcut → Properties → **Change Icon…** → Browse.
+- **A themed installer:** in the spirit of the Rdio era, with the mxtp logo. When you update, it uses the same theme you've set in the app.
+- **Favourite playlists:** the ☆ next to "Favourite playlists" in the sidebar picks which playlists show there.
 
 ## Keyboard
 
