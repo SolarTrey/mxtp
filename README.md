@@ -32,6 +32,19 @@ The exes aren't code-signed, so Windows may say "Windows protected your PC" the 
 
 ---
 
+## mxtp for Android
+
+mxtp also comes as an Android app, **mxtp.apk** on the [latest release](../../releases/latest), for the music stored on your phone.
+
+- **Home** with Heavy Rotation and Recently added, **Library** (Albums, Artists, Songs, Genres, Playlists) with the A–Z jump, and **Search**.
+- **Now Playing** as a vinyl record, a CD or a cassette (the record slides out of its sleeve while playing; the cassette turns into its case when paused), with the heart, shuffle, repeat and the queue.
+- **Liked** songs and **favourite playlists** (star a playlist to keep it there).
+- **Light, Evening (Purple, Amber or Both) and Midnight**, as on Windows.
+- **Lock-screen and notification controls** with a Like button, headphone buttons, and picking up where you left off.
+- **Two home-screen widgets:** a bar (art, song, like, previous, play/pause, next) and a square album.
+
+To install it, open mxtp.apk on your phone and allow installing from your browser or files app when Android asks. Android 8 or newer.
+
 ## Your library
 
 **Artists, Albums, Songs and Genres**, each with its own page. Albums sort by artist, title, year or recently added. Songs is a full sortable table with format and quality. Big letter headers make long lists easy to jump through.
