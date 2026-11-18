@@ -72,7 +72,7 @@
   // ================================================================ 1. Spectrum (early-2000s media player bars)
   // Colourways for Spectrum: [top, middle, bottom, peak cap, background glow]
   const SPECTRUM_THEMES = {
-    rdio:    { name: 'Rdio blue', stops: ['#bff0ff', '#19a7ef', '#00507a'], cap: '#e8f8ff', glow: '#071a28', floor: 'rgba(0,143,213,.55)' },
+    rdio:    { name: 'Classic blue', stops: ['#bff0ff', '#19a7ef', '#00507a'], cap: '#e8f8ff', glow: '#071a28', floor: 'rgba(0,143,213,.55)' },
     classic: { name: 'Classic',   stops: ['#ff3b2f', '#ffd23f', '#22c55e'], cap: '#ffffff', glow: '#06180c', floor: 'rgba(34,197,94,.5)', mid: 0.45 },
     fire:    { name: 'Fire',      stops: ['#fff3b0', '#ff8a1f', '#a3120b'], cap: '#fff7d6', glow: '#240802', floor: 'rgba(255,120,30,.5)' },
     sunset:  { name: 'Sunset',    stops: ['#ffd27a', '#e0507a', '#4a2a86'], cap: '#ffe9c7', glow: '#1b0f2c', floor: 'rgba(224,80,122,.5)' },

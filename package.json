@@ -1,8 +1,8 @@
 {
   "name": "mxtp",
   "productName": "mxtp",
-  "version": "0.2.0",
-  "description": "A local music player in the spirit of Rdio.",
+  "version": "0.2.1",
+  "description": "A player for the music on your own drives.",
   "main": "src/main/main.js",
   "author": "SolarTrey",
   "license": "MIT",

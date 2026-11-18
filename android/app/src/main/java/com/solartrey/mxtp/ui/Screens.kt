@@ -469,7 +469,7 @@ fun SettingsScreen(c: Ctx, onRescan: () -> Unit) {
         if (Store.theme == "light") item {
             group("Title line") {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Rdio-blue line under the top bar", color = pal.text, modifier = Modifier.weight(1f))
+                    Text("Blue line under the top bar", color = pal.text, modifier = Modifier.weight(1f))
                     Switch(Store.lightLine, { Store.set { lightLine = it } }, colors = SwitchDefaults.colors(checkedTrackColor = pal.accent))
                 }
             }
@@ -481,6 +481,6 @@ fun SettingsScreen(c: Ctx, onRescan: () -> Unit) {
                 Spacer(Modifier.height(10.dp)); Pill("Rescan my music", false, onRescan)
             }
         }
-        item { group("About") { Sub("mxtp for Android 0.2 · an ode to Rdio", size = 13) } }
+        item { group("About") { Sub("mxtp for Android 0.2.1 · your music, front and centre", size = 13) } }
     }
 }

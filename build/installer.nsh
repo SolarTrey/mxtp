@@ -99,6 +99,6 @@ FunctionEnd
 !macro customWelcomePage
   !define MUI_PAGE_CUSTOMFUNCTION_PRE themeWelcomePre
   !define MUI_WELCOMEPAGE_TITLE "Welcome to mxtp"
-  !define MUI_WELCOMEPAGE_TEXT "mxtp is a player for the music on your own drives, in the spirit of Rdio.$\r$\n$\r$\nIf mxtp is already installed, this updates it and keeps your music, settings and playlists.$\r$\n$\r$\nClick Next to continue."
+  !define MUI_WELCOMEPAGE_TEXT "mxtp is a player for the music on your own drives.$\r$\n$\r$\nIf mxtp is already installed, this updates it and keeps your music, settings and playlists.$\r$\n$\r$\nClick Next to continue."
   !insertmacro MUI_PAGE_WELCOME
 !macroend

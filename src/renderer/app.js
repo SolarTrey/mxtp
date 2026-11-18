@@ -1787,7 +1787,7 @@
   // ---------------- Settings
   const ZUNE_COLORS = { pink: ['#ec008c', '#f7941d'], magenta: ['#d1007f', '#ff5aa5'], orange: ['#f26522', '#ffb347'], red: ['#d71920', '#ff6a3d'], green: ['#6bbd45', '#c8e64a'], blue: ['#1ba1e2', '#7fd3ff'], brown: ['#6b4a33', '#b8865a'], black: ['#3a3a3a', '#8a8a8a'], white: ['#c9c9c9', '#ffffff'] };
   const ALL_SKINS = [
-    ['rdio', 'Rdio', 'The Bndcmp look: Light, Evening, Midnight', [['light', 'Light'], ['evening', 'Evening'], ['midnight', 'Midnight']]],
+    ['rdio', 'Classic', 'Light, Evening, Midnight', [['light', 'Light'], ['evening', 'Evening'], ['midnight', 'Midnight']]],
     ['zune', 'Zune', 'Big lowercase type, pivots and a pink glow', [['dark', 'Dark'], ['light', 'Light']]],
     ['wmp', 'Media Player', 'Glossy 2000s chrome, tabs and a big round play button', [['onyx', 'Onyx (11–12)'], ['azure', 'Azure (9–10)']]]
   ];
@@ -1804,7 +1804,7 @@
       <div class="view-head"><h1>Settings</h1></div>
       <div class="settings">
         <div class="set-group">
-          <h3>${SKINS.length > 1 ? 'Skin' : 'Look'}</h3><p class="hint">${SKINS.length > 1 ? 'Each skin changes the whole app, its mini players included.' : sk === 'rdio' ? 'Rdio blue stays the accent in every theme.' : 'Pick a canvas and an accent colour.'}</p>
+          <h3>${SKINS.length > 1 ? 'Skin' : 'Look'}</h3><p class="hint">${SKINS.length > 1 ? 'Each skin changes the whole app, its mini players included.' : sk === 'rdio' ? 'Blue stays the accent in every theme.' : 'Pick a canvas and an accent colour.'}</p>
           ${SKINS.length > 1 ? `<div class="skin-cards">
             ${SKINS.map(([k, l, d]) => `
               <button class="skin-card ${sk === k ? 'on' : ''}" data-setting="skin" data-value="${k}">
@@ -1814,7 +1814,7 @@
           </div>` : ''}
           <div class="set-row"><label>Theme</label>${seg('theme', settings.themes[sk], curSkin[3])}</div>
           ${sk === 'rdio' && settings.themes.rdio === 'evening' ? `<div class="set-row"><label>Evening tone</label>${seg('eveningTone', settings.eveningTone || 'both', [['purple', 'Purple'], ['amber', 'Amber'], ['both', 'Both']])}</div>` : ''}
-          ${sk === 'rdio' && settings.themes.rdio === 'light' ? `<div class="set-row"><label>Rdio-blue line under the title bar</label>${sw('lightLine', !!settings.lightLine)}</div>` : ''}
+          ${sk === 'rdio' && settings.themes.rdio === 'light' ? `<div class="set-row"><label>Blue line under the title bar</label>${sw('lightLine', !!settings.lightLine)}</div>` : ''}
           ${sk === 'zune' ? `<div class="set-row"><label>Accent colour</label><div class="swatches">${Object.entries(ZUNE_COLORS).map(([k, [a, b]]) => `<button class="swatch ${settings.zuneColor === k ? 'on' : ''}" data-setting="zuneColor" data-value="${k}" title="${k}" style="background:linear-gradient(135deg,${a},${b})"></button>`).join('')}</div></div>` : ''}
           ${sk === 'rdio' ? `<div class="set-row"><label>Player</label>${seg('playerLayout', settings.playerLayout, [['sidebar', 'Sidebar'], ['bar', 'Bottom bar'], ['both', 'Both']])}</div>` : ''}
         </div>

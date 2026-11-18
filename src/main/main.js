@@ -260,7 +260,7 @@ function widgetMenu() {
     { label: 'Lock position', type: 'checkbox', checked: w.locked, click: (i) => set({ locked: i.checked }) },
     { type: 'separator' },
     ...(PRODUCT.skins.length > 1 ? [{ label: 'Skin', submenu: PRODUCT.skins.map((k) => ({
-      label: { rdio: 'Rdio', zune: 'Zune', wmp: 'Media Player' }[k], type: 'radio', checked: s.skin === k, click: () => setSettings({ skin: k })
+      label: { rdio: 'Classic', zune: 'Zune', wmp: 'Media Player' }[k], type: 'radio', checked: s.skin === k, click: () => setSettings({ skin: k })
     })) }] : []),
     { label: 'Theme', submenu: (SKIN_THEMES[s.skin] || Object.values(SKIN_THEMES)[0]).map((t) => ({
       label: t[0].toUpperCase() + t.slice(1), type: 'radio', checked: s.themes[s.skin] === t, click: () => setSettings({ themes: { [s.skin]: t } })
